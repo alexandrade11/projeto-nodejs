@@ -21,10 +21,10 @@ app.get('/tarefas', (req, res) => {
 app.get('/pagamentos', (req, res) => {
     res.sendStatus (403);
 });
-app.get('/user/:name/nationality/:country', (req, res) =>{
-    const reqn= req.params.name;
-    const reqc= req.params.country;
-    res.send(`O ${reqn} tem nacionalidade ${reqc}`);
+app.get('/search_users', (req, res) =>{
+    const reqn= req.query.name;
+    const reqid= req.query.id;
+    res.send(`O utilizador ${reqid} com nome ${reqn} não foi encontrado`);
 }) 
 
 const PORT = 3001;
