@@ -27,6 +27,93 @@ app.get('/search_users', (req, res) =>{
     res.send(`O utilizador ${reqid} com nome ${reqn} não foi encontrado`);
 }) 
 
+app.get('/livro', (request, response) => {
+ 
+    const livro = request.body.nome;
+    const artista = request.body.artista;
+    const ano = request.body.ano;
+ 
+    console.log(livro)    
+    response.send(`Foi feito um pedido do livro ${livro}, do artista ${artista}, escrito no ano ${ano}`)
+});
+ 
+ 
+let moneyBalance = null;                        
+ 
+app.get ('/balance', (req, res)=> {    
+    res.send(`Dinheiro: ${moneyBalance}`);
+});
+ 
+app.post ('/balance', (req, res)=> {
+    if (moneyBalance == null){
+    moneyBalance = req.body.balance;
+    res.sendStatus(200);
+    } else {
+        res.sendStatus(400);
+    }
+});
+ 
+app.put ('/balance', (req, res)=> {
+    if (moneyBalance != null){
+        moneyBalance = req.body.balance;
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(400);
+    }
+});
+ 
+app.delete ('/balance', (req, res)=> {
+    if (moneyBalance != null){
+    moneyBalance = null;
+    res.sendStatus(200);
+    } else {
+        res.sendStatus(400);
+    }
+});
+ 
+ 
+ 
+const users = [
+    {
+        id: 0,
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'johndoe@example.com'
+    },
+    {
+        id: 1,
+        first_name: 'Alice',
+        last_name: 'Smith',
+        email: 'alicesmith@example.com'
+    },
+];
+ 
+let currentId = 2;
+ 
+app.get('/users', (request, response) =>{
+    response.send(users)
+  })
+ 
+  app.post('/users', (request, response) =>{
+    const nuser = request.body;
+    users.push(nuser)
+    response.sendStatus(200);
+  });
+ 
+  app.put('/users', (request, response) =>{
+    
+  });
+ 
+  app.delete('/users', (request, response) =>{
+   
+    
+    response.sendStatus(200);
+ 
+   
+  }
+  );
+ 
+ 
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Servidor a correr em http://localhost:${PORT}`);
