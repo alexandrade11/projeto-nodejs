@@ -90,21 +90,21 @@ const users = [
  
 let currentId = 2;
  
-app.get('/users', (request, response) =>{
+app.get('/users', (req, res) =>{
     response.send(users)
   })
  
-  app.post('/users', (request, response) =>{
-    const nuser = request.body;
+  app.post('/users', (req, res) =>{
+    const nuser = req.body;
     users.push(nuser)
-    response.sendStatus(200);
+    res.sendStatus(200);
   });
  
-  app.put('/users', (request, response) =>{
+  app.put('/users', (req, res) =>{
     
   });
  
-  app.delete('/users', (request, response) =>{
+  app.delete('/users', (req, res) =>{
    
     
     response.sendStatus(200);
