@@ -1,6 +1,24 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const mysql = require('mysql2')
+
+const connection = mysql.createConnection({
+host: '127.0.0.1',
+user: 'root',
+password: '',
+database: 'psi_t1',
+port:3306
+
+})
+
+connection.connect((err) =>{
+    if(err){
+        console.error('erro a conectar à base de dados', err.message);     
+    }else{
+        console.log('conectado à base de dados MySQL!')
+    }
+})
 
 app.use(express.json())
 
@@ -93,34 +111,40 @@ const users = [
 let currentId = 2;
  
 app.get('/users', (req, res) =>{
-    res.send(users)
+    const myQuery = `SELECT * FROM users`
+
+        connection.query(myQuery,(err, results) => {
+        if (err){
+            return res.status(500).send('Erro ao buscar users: ' + err.message);
+        }
+        res.json(results);
+
+        })
   })
  
   app.post('/users', (req, res) =>{
-    const nuser = req.body;
-    users.id=currentId;
-    currentId=currentId+1;
-    users.push(nuser)
-    res.sendStatus(200);
+    const myQuery = `INSERT INTO users (id, first_name, last_name, email) VALUES (NULL, '${req.body.first_name}', '${req.body.last_name}', '${req.body.email}')`
+
+        connection.query(myQuery,(err, results) => {
+        if (err){
+            return res.status(500).send('Erro ao buscar users: ' + err.message);
+        }
+        res.json(results);
+
+        })
   });
 
  
   app.put('/users', (req, res) =>{
-    for(let i = 0 ; i < users.length; i++){  
+    const myQuery = `UPDATE users SET`
 
-        if (users[i].id==req.body.id){
-            if(req.body.first_name != null) {
-                users[i].first_name = req.body.first_name;
-            }
-            if(req.body.last_name != null) {
-          users[i].last_name = req.body.last_name;
-            }
-          if(req.body.email != null) {
-          users[i].email = req.body.email;
-          }
-          res.sendStatus(200);
+        connection.query(myQuery,(err, results) => {
+        if (err){
+            return res.status(500).send('Erro ao buscar users: ' + err.message);
         }
-     }
+        res.json(results);
+
+        })
   });
  
   app.delete('/users', (req, res) =>{
